@@ -8,3 +8,5 @@ In the Next step, go to the EC2 Dashboard and click on "Security Groups
 Click on "Create Security Group"
 In the Configure Security Group" section, configure the security group to allow SSH access (port 22) from your IP address.
 You may also want to allow other ports based on your requirements (e.g., HTTP, HTTPS) as in this pic
+![image](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/5b04e137-dfa7-4595-a49e-e7257964f171)
+
