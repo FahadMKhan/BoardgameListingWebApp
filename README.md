@@ -1,6 +1,6 @@
-# BoardgameListingWebApp
-Board Game Database Full-Stack Web Application.
-Description
+**Board Game Database Full-Stack Web Application.**
+
+**Description**
 Board Game Database Full-Stack Web Application. This web application displays lists of board games and their reviews. While anyone can view the board game lists and reviews, they are required to log in to add/ edit the board games and their reviews. The 'users' have the authority to add board games to the list and add reviews, and the 'managers' have the authority to edit/ delete the reviews on top of the authorities of users.
 
 **Technologies**
@@ -46,3 +46,40 @@ To use initial user data, use the following credentials.
 username: bugs | password: bunny (user role)
 username: daffy | password: duck (manager role)
 You can also sign-up as a new user and customize your role to play with the application! 😊
+
+=======================================================================================================================
+
+**The Ultimate CICD Corporate DevOps Pipeline Project | Real-Time DevOps Project:**
+
+
+**The task will be divided into 4 phases:**
+
+**-- Phase 1:**
+
+* We will create a Network Environment.
+The reason for a Network Environment is to that the resources and applications that we will be working with will be "Private". They will be in an isolated environment so no outside entity can access them. Lastly we will make sure that the deployment is secure.
+
+* We will be setting up K8s cluster our any other cluster to deploy our application. Once the K8s cluster has been deployed, we will be scanning the cluster for any vulnerabilities or issues and for that we will be using a security tool for this.
+
+*  We will be creating multiple VMs in a secure isolated environment and on these VM's we will be setting up different servers i.e. SonarQube, Nexus and tools i.e. Jenkins, Monitoring tools which will be used for monitoring the applications that we will be using to deploy.
+
+**--Phase 2:**
+
+* We will be creating a Git-Repo and this Git-Repo should be "Private" so no outside entity can access it.
+
+* After creating the git-repo, we will be pushing our source code to it.
+
+* After the SC has been pushed, we will make sure that it is visible to us.
+
+**-- Phase 3:**
+
+ * In this phase we will start working with CICD pipeline. While doing this we have to make sure that we are following the "best practices" and we are taking "security measures".
+
+* We will deploy our application.
+
+* We will configure mail notification.
+
+**-- Phase 4:**
+
+* In this phase we will be setting up the monitoring tools to monitor our application. The monitoring will be done on two levels, "system level" and "website level". On system level we can monitor things like CPU, RAM etc. On website level we will be monitoring traffic etc.
+
