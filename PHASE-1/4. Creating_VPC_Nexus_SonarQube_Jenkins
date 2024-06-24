@@ -1,0 +1,188 @@
+# User Guide for Creating and Configuring Ubuntu EC2 Instances for Nexus and SonarQube
+
+## Introduction
+This guide will help you create two Ubuntu EC2 instances on AWS, one for Nexus and the other for SonarQube.
+
+## Steps to Create Ubuntu EC2 Instances
+
+### Sign in to the AWS Management Console
+
+1. **Go to the AWS Management Console:**
+   ```
+   https://aws.amazon.com/console/
+   ```
+   *Open the AWS Management Console in your web browser.*
+
+2. **Sign in with your AWS account credentials:**
+   *Enter your AWS account credentials to log in.*
+
+### Navigate to EC2
+
+1. **Navigate to the EC2 dashboard:**
+   *Type "EC2" in the search bar at the top or select "Services" and then "EC2" under the "Compute" section.*
+
+### Launch Instance
+
+1. **Click on the "Instances" link:**
+   *In the EC2 dashboard sidebar, click on "Instances".*
+
+2. **Click the "Launch Instance" button:**
+   *Start the process to create a new EC2 instance.*
+
+### Choose the Number of Instances
+
+1. **Specify the number of instances:**
+   *In the Summary section, set the number of instances to 2.*
+
+### Choose an Amazon Machine Image (AMI)
+
+1. **Select an Amazon Machine Image (AMI):**
+   *In the "Application and OS Images (Amazon Machine Image)" section, choose "Ubuntu".*
+
+2. **Select the Ubuntu version:**
+   ```
+   Ubuntu, 22.04 LTS, amd64 jammy image build on 2024-04-11
+   ```
+   *Click "Select" to use this version.*
+
+### Choose an Instance Type
+
+1. **Select an instance type:**
+   *In the "Instance type" section, choose "t2.medium, Family:t2, 2vCPU, 4 GiB Memory".*
+   *Click "Next: Configure Instance Details".*
+
+### Configure Instance Details
+
+1. **Key pair (login):**
+   *Ensure you have access to the selected key pair. Choose the key pair name from the dropdown menu or create a new key pair.*
+
+2. **Network settings:**
+   *A security group is a set of firewall rules that control the traffic for your instance. Select an existing security group.*
+   *Click on "Select existing Security Group".*
+   *In the "Common security groups" dropdown, choose your existing security group.*
+
+### Configure Storage
+
+1. **Add Storage:**
+   *In the "Configure storage" section, specify the size of the root volume. Choose 1x 20 GiB.*
+   *Click "Next: Add Storage".*
+
+### Add Tags
+
+1. **Optionally, add tags:**
+   *Add tags to your instance for better organization and management.*
+   *Click "Next: Configure Security Group".*
+
+### Review and Launch
+
+1. **Review the configuration of your instance:**
+   *Make sure all settings are correct.*
+   *Click "Launch".*
+
+2. **Select Key Pair:**
+   *In the pop-up window, select an existing key pair or create a new one.*
+   *Check the acknowledgment box.*
+   *Click "Launch Instances".*
+
+### Access Your Instance
+
+1. **Access your instance:**
+   *Use Mobaxterm or any other SSH client to connect to your instance using the key pair selected during the setup.*
+
+By following these steps, you will have two Ubuntu EC2 instances ready for configuring Nexus and SonarQube servers.
+
+=========================================================================================================================
+
+# User Guide for Creating and Configuring an Ubuntu EC2 Instance for Jenkins
+
+## Introduction
+This guide will help you create an Ubuntu EC2 instance on AWS for Jenkins.
+
+## Steps to Create Ubuntu EC2 Instance
+
+### Sign in to the AWS Management Console
+
+1. **Go to the AWS Management Console:**
+   ```
+   https://aws.amazon.com/console/
+   ```
+   *Open the AWS Management Console in your web browser.*
+
+2. **Sign in with your AWS account credentials:**
+   *Enter your AWS account credentials to log in.*
+
+### Navigate to EC2
+
+1. **Navigate to the EC2 dashboard:**
+   *Type "EC2" in the search bar at the top or select "Services" and then "EC2" under the "Compute" section.*
+
+### Launch Instance
+
+1. **Click on the "Instances" link:**
+   *In the EC2 dashboard sidebar, click on "Instances".*
+
+2. **Click the "Launch Instance" button:**
+   *Start the process to create a new EC2 instance.*
+
+### Choose the Number of Instances
+
+1. **Specify the number of instances:**
+   *In the Summary section, set the number of instances to 1.*
+   *Under Name and tags type "Jenkins".*
+
+### Choose an Amazon Machine Image (AMI)
+
+1. **Select an Amazon Machine Image (AMI):**
+   *In the "Application and OS Images (Amazon Machine Image)" section, choose "Ubuntu".*
+
+2. **Select the Ubuntu version:**
+   ```
+   Ubuntu, 22.04 LTS, amd64 jammy image build on 2024-04-11
+   ```
+   *Click "Select" to use this version.*
+
+### Choose an Instance Type
+
+1. **Select an instance type:**
+   *In the "Instance type" section, choose "t2.large, Family:t2, 2 vCPU, 8 GiB Memory".*
+   *Click "Next: Configure Instance Details".*
+
+### Configure Instance Details
+
+1. **Key pair (login):**
+   *Ensure you have access to the selected key pair. Choose the key pair name from the dropdown menu or create a new key pair.*
+
+2. **Network settings:**
+   *A security group is a set of firewall rules that control the traffic for your instance. Select an existing security group.*
+   *Click on "Select existing Security Group".*
+   *In the "Common security groups" dropdown, choose your existing security group.*
+
+### Configure Storage
+
+1. **Add Storage:**
+   *In the "Configure storage" section, specify the size of the root volume. Choose 1x 30 GiB.*
+   *Click "Next: Add Storage".*
+
+### Add Tags
+
+1. **Optionally, add tags:**
+   *Add tags to your instance for better organization and management.*
+   *Click "Next: Configure Security Group".*
+
+### Review and Launch
+
+1. **Review the configuration of your instance:**
+   *Make sure all settings are correct.*
+   *Click "Launch".*
+
+2. **Select Key Pair:**
+   *In the pop-up window, select an existing key pair or create a new one.*
+   *Check the acknowledgment box.*
+   *Click "Launch Instances".*
+
+### Access Your Instance
+
+1. **Access your instance:**
+   *Use Mobaxterm or any other SSH client to connect to your instance using the key pair selected during the setup.*
+
+By following these steps, you will have an Ubuntu EC2 instance ready for configuring Jenkins.
