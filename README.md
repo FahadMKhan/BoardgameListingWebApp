@@ -85,3 +85,10 @@ The reason for a Network Environment is to that the resources and applications t
 
 * In this phase we will be setting up the monitoring tools to monitor our application. The monitoring will be done on two levels, "system level" and "website level". On system level we can monitor things like CPU, RAM etc. On website level we will be monitoring traffic etc.
 
+-------------------------------------------------------------------------------------------
+Here are some of the required png's:
+
+![Nexus-setting-1](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/711c4dcb-bff2-46b7-8deb-26403da9b820)
+
+
+![Nexus-setting-2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/fcea7679-bf72-4b79-8bb7-8a4eea43906c)
