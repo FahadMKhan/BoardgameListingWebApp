@@ -431,7 +431,7 @@ trivy --version
 - **Paste it under the NOTE** as shown in the picture below:
 ![Nexus-setting-2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/fcea7679-bf72-4b79-8bb7-8a4eea43906c)
    - Add the credentials for accessing Nexus:
-- **Note that one credential is for maven-releases and the other is for maven-snapshots.**
+- **Note that the above server credentials are for maven-releases and the bottom server credential are for maven-snapshots.**
 ```xml
 <servers>
     <server>
