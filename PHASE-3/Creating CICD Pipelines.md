@@ -425,8 +425,12 @@ trivy --version
    - Click on **Add a new config**.
    - Select **Global Maven settings.xml**.
    - Provide an ID name (e.g., "global-settings").
-   - Scroll down to **Content** and add the credentials for accessing Nexus:
-
+   - Scroll down to **Content**
+   - Copy the `-->` under the `</servers>` tag as shown in the picture below:
+![Nexus-setting-1](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/711c4dcb-bff2-46b7-8deb-26403da9b820)
+- **Paste it under the NOTE** as shown in the picture below:
+![Nexus-setting-2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/fcea7679-bf72-4b79-8bb7-8a4eea43906c)
+   - Add the credentials for accessing Nexus:
 ```xml
 <servers>
     <server>
