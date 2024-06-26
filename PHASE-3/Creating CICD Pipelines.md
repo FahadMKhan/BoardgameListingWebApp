@@ -976,4 +976,62 @@ RBAC in Kubernetes is a method of regulating access to resources based on the ro
       }
   }
   ```
-  
+### Install kubectl on Jenkins Server
+
+- **We have not yet installed Kubectl on Jenkins so the kubectl apply -f deployment-service.yaml command will not run. To resolve this, we will install kubectl on the Jenkins server.**
+
+1. **Copy the kubectl installation commands from this location:**
+   [support-steps-eks-file-.md](https://github.com/FahadMKhan/Boardgame/blob/main/support-steps-eks-file-.md)
+
+2. **Go to Jenkins Server.**
+
+3. **Type vi kubectl.sh:**
+   ```sh
+   vi kubectl.sh
+   ```
+
+4. **Paste the entire command line in vi kubectl.sh:**
+   ```sh
+   curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+   chmod +x ./kubectl
+   sudo mv ./kubectl /usr/local/bin
+   kubectl version --short --client
+   ```
+
+5. **Save the file:**
+   - Press `esc` and type `:wq` then press `Enter`.
+
+6. **Make the script executable:**
+   ```sh
+   sudo chmod +x kubectl.sh
+   ```
+
+7. **Run the script to install kubectl:**
+   ```sh
+   ./kubectl.sh
+   ```
+
+8. **Verify the installation:**
+   - The script will download and install kubectl on your Jenkins VM. After running the script, the kubectl apply -f deployment-service.yaml command should run in your pipeline without any issues.
+
+### Verify The Deployment Stage
+
+- **In the next step, we will verify if the deployment is done. For that, we will create the "Verify The Deployment" stage and steps:**
+
+```groovy
+stage('Verify The Deployment') {
+    steps {
+        withKubeConfig(caCertificate: '', clustername: 'kubernetes', contexName: 'xyz') { 
+            sh "kubectl get pods -n webapps"
+            sh "kubectl get svc -n webapps"
+        } 
+    }
+}
+```
+
+- **Explanation of the Steps:**
+  - **withKubeConfig:** Configures the Kubernetes CLI (kubectl) with the provided credentials and cluster information.
+  - **sh "kubectl get pods -n webapps":** Verifies the deployment by listing all the pods in the webapps namespace.
+  - **sh "kubectl get svc -n webapps":** Verifies the deployment by listing all the services in the webapps namespace.
+
+By following these steps, you will successfully install kubectl on your Jenkins server and verify your deployment in Kubernetes.
