@@ -623,3 +623,357 @@ RBAC in Kubernetes is a method of regulating access to resources based on the ro
 
 **Steps to Create RBAC:**
 
+### Creating CI/CD Pipelines
+
+**First of all we need to create a service account**
+
+1. **Create a Service Account:**
+
+- **We will create a user.**
+- **Go to your Master terminal.**
+- **Change to the root user using the command below:**
+  ```sh
+  sudo su
+  ```
+- **Once you are the Root-user, create a vi svc.yaml:**
+  ```sh
+  vi svc.yaml
+  ```
+- **Paste the below in vi svc.yaml:**
+  ```yaml
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    name: jenkins
+    namespace: webapps
+  ```
+  *(What the above is doing is creating a service account which will be used to perform the deployment. The name of the user is Jenkins and we are going to do the deployment in a separate project or a namespace called webapps.)*
+
+- **Save the file.**
+
+- **Now we will create the namespace using the command below:**
+  ```sh
+  kubectl create ns webapps
+  ```
+  *You will see the below outcome:*
+  ```
+  namespace/webapps created
+  ```
+
+- **Now we will execute the vi svc.yaml:**
+  ```sh
+  kubectl apply -f svc.yaml
+  ```
+  *You will see the below outcome:*
+  ```
+  serviceaccount/jenkins created
+  ```
+
+- **Now we have successfully created the service account inside the webapps namespace.**
+
+2. **Create a Role:**
+   *(This role that we are creating will have full permission to get details, list details, watch it, create, update, patch, delete etc. So in short, the role will have complete access that is required to perform any deployment.)*
+
+- **We will create a role.**
+- **Create a vi role.yaml:**
+  ```sh
+  vi role.yaml
+  ```
+- **Paste the below contents in vi role.yaml:**
+  ```yaml
+  apiVersion: rbac.authorization.k8s.io/v1
+  kind: Role
+  metadata:
+    name: app-role
+    namespace: webapps
+  rules:
+    - apiGroups:
+        - ""
+        - apps
+        - autoscaling
+        - batch
+        - extensions
+        - policy
+        - rbac.authorization.k8s.io
+      resources:
+        - pods
+        - secrets
+        - componentstatuses
+        - configmaps
+        - daemonsets
+        - deployments
+        - events
+        - endpoints
+        - horizontalpodautoscalers
+        - ingress
+        - jobs
+        - limitranges
+        - namespaces
+        - nodes
+        - pods
+        - persistentvolumes
+        - persistentvolumeclaims
+        - resourcequotas
+        - replicasets
+        - replicationcontrollers
+        - serviceaccounts
+        - services
+      verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  ```
+  *You can see that the role we are creating is for webapps and the name of the role will be app-role.*
+
+- **Save the file.**
+
+- **Now we will execute the vi role.yaml:**
+  ```sh
+  kubectl apply -f role.yaml
+  ```
+  *You will see the below outcome:*
+  ```
+  role.rbac.authorization.k8s.io/app-role created
+  ```
+
+- **Now we have successfully created the role.**
+
+3. **Create a RoleBinding:**
+   *(Now we will bind the role to the service account.)*
+
+- **Create a vi bind.yaml:**
+  ```sh
+  vi bind.yaml
+  ```
+- **Paste the below contents in vi bind.yaml:**
+  ```yaml
+  apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    name: app-rolebinding
+    namespace: webapps 
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: Role
+    name: app-role 
+  subjects:
+  - namespace: webapps 
+    kind: ServiceAccount
+    name: jenkins 
+  ```
+  *(This RoleBinding associates the app-role Role with the jenkins ServiceAccount in the webapps namespace, allowing Jenkins to perform actions defined in the Role.)*
+
+- **Save the file.**
+
+- **Now we will execute the vi bind.yaml:**
+  ```sh
+  kubectl apply -f bind.yaml
+  ```
+  *You will see the below outcome:*
+  ```
+  rolebinding.rbac.authorization.k8s.io/app-rolebinding created
+  ```
+
+- **Now we have successfully bound the role to the service account. The user we created with Jenkins user has full permission to perform the deployment and everything required.**
+
+4. **Create a Token for Jenkins to Connect to Kubernetes:**
+   *(Now we want our Jenkins to connect to our Kubernetes cluster. For that, we will create a Token that will be used for authentication.)*
+
+- **Browse to the Kubernetes.io website:**
+  [Kubernetes Documentation](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#create-token)
+
+- **Copy the contents from: secret/serviceaccount/mysecretname.yaml**
+
+- **Create a vi secret.yaml:**
+  ```sh
+  vi secret.yaml
+  ```
+
+- **Paste the below contents in vi secret.yaml:**
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  type: kubernetes.io/service-account-token
+  metadata:
+    name: mysecretname
+    annotations:
+      kubernetes.io/service-account.name: jenkins
+  ```
+  *(Note that we need to change the service-account name to our service-account name which is jenkins: 
+  -> (kubernetes.io/service-account.name: myserviceaccount) change to -> (kubernetes.io/service-account.name: jenkins)*
+
+- **Save the file.**
+
+- **Now we will execute the vi secret.yaml:**
+  ```sh
+  kubectl apply -f secret.yaml -n webapps
+  ```
+  *(-n is used for namespace. So if you have not mentioned your namespace in your .yaml file, you can manually use it in your command so that the resource that we are creating should be created in that namespace.)*
+
+  *You will see the below outcome:*
+  ```
+  secret/mysecretname created
+  ```
+
+5. **Display the Authentication Token:**
+
+- **In order to print the authentication Token on your Master terminal, execute the following command:**
+  ```sh
+  kubectl describe secret mysecretname -n webapps
+  ```
+  *(The above command prints detailed information about the secret mysecretname in the webapps namespace, including the token value that can be used for authentication.)*
+
+  *It should print something like:*
+  ```
+  eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXY1N253Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIwMzAzMjQzYy00MDQwLTRhNTgtOGE0Ny04NDllZTliYTc5YzEiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Z2JrQlitASVwWbc-s6deLRFVk5DWD3P_vjUFXsqVSY10pbjFLG4njoZwh8p3tLxnX_VBsr7_6bwxhWSYChp9hwxznemD5x5HLtjb16kI9Z7yFWLtohzkTwuFbqmQaMoget_nYcQBUC5fDmBHRfFvNKePh_vSSb2h_aYXa8GV5AcfPQpY7r461itme1EXHQJqv-SN-zUnguDguCTjD80pFZ_CmnSE1z9QdMHPB8hoB4V68gtswR1VLa6mSYdgPwCHauuOobojALSaMc3RH7MmFUumAgguhqAkX3Omqd3rJbYOMRuMjhANqd08piDC3aIabINX6gP5-Tuuw2svnV6NYQ
+  ```
+
+6. **Add the Token to Jenkins Global Credentials
+
+:**
+
+- **Go to Jenkins.**
+- **Click on Manage Jenkins.**
+- **Click on Credentials.**
+- **Click on System.**
+- **Click on Global credentials (unrestricted).**
+- **Click on + Add Credentials.**
+- **In Kind, choose secret text.**
+- **In Secret, paste the above created authentication Token.**
+- **In ID, write k8-cred.**
+- **In Description, write k8-cred.**
+
+7. **Configure Jenkins Pipeline to Use Kubernetes:**
+
+- **Now go back to your BoardGame pipeline.**
+- **Click on Dashboard.**
+- **Click on BoardGame.**
+- **Click on Configuration.**
+- **Scroll all the way down to Pipeline Syntax.**
+- **Click on Pipeline Syntax.**
+- **In Sample Step, choose: withKubeConfig: Configuration Kubernetes CLI (kubectl).**
+- **In Credentials, choose the credential we created earlier: k8-cred.**
+
+- **Now we need to enter our Kubernetes server endpoint and Cluster name. In order to get Kubernetes server endpoint and Cluster name, go to your Master terminal.**
+- **Change directory to .kube, type:**
+  ```sh
+  cd ~/.kube 
+  ```
+  *(This is the folder where we will find the config file which holds the Kubernetes server endpoint.)*
+
+- **Once inside ~/.kube, type:**
+  ```sh
+  ls
+  ```
+  *(You will see cache and config files as the outcome of the above command.)*
+
+- **Now we will print the contents inside config, type:**
+  ```sh
+  cat config
+  ```
+  *(The above command will print all the details of our cluster.)*
+
+- **Scroll down to the point when you see "server: https://ipaddress:6443" (This is our Kubernetes server endpoint that we need) and "cluster: yourclustername" (This is our Cluster name).**
+  *For example:*
+  ```sh
+  server: https://10.101.10.101:6443
+  cluster: kubernetes
+  ```
+
+- **Copy the server address and cluster name and paste it in the box of Kubernetes server endpoint and Cluster name in your Jenkins Pipeline syntax.**
+  ```sh
+  Kubernetes server endpoint: server: https://10.101.10.101:6443
+  Cluster name: kubernetes
+  ```
+
+- **Now in the Namespace, type: (Our namespace that we created was "webapps")**
+  ```sh
+  Namespace: webapps          
+  ```
+
+- **Click on Generate Pipeline Script.**
+  *e.g. Script:*
+  ```groovy
+  withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ''xyz) {
+  // some block
+  }
+  ```
+
+- **Copy the Script generated.**
+
+8. **Add Deployment Stage in Jenkins Pipeline:**
+
+- **Now go to your Jenkins Pipeline.**
+- **Click on Dashboard.**
+- **Click on BoardGame.**
+- **Click on Configuration.**
+
+- **Inside Script, we will create a stage to execute the deployment. In order to do that we need to use a manifest file which we have in our "Boardgame" repository by the file name "deployment-service.yaml"** [deployment-service.yaml](https://github.com/FahadMKhan/Boardgame/blob/main/deployment-service.yaml).
+  *Please see the contents of "deployment-service.yaml" file below which I have copied from [deployment-service.yaml](https://github.com/FahadMKhan/Boardgame/blob/main/deployment-service.yaml). You can modify it as per your own requirements so it becomes the manifest file for your own project.*
+
+  *For example:*
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment # Kubernetes resource kind we are creating
+  metadata:
+    name: boardgame-deployment  #(Can change name: yourprojectname-deployment)
+  spec:
+    selector:
+      matchLabels:
+        app: boardgame  #(Can change app: yourprojectname)
+    replicas: 2 # Number of replicas that will be created for this deployment
+    template:
+      metadata:
+        labels:
+          app: boardgame  #(Can change app: yourprojectname)
+      spec:
+        containers:
+          - name: boardgame  #(Can change app: yourprojectname)
+            image: adijaiswal/boardgame:latest #(Docker image can be changed image: yourprojectname. We can get this information from the Push Docker Image stage in our Jenkins Pipeline) Image that will be used to containers in the cluster
+            imagePullPolicy: Always
+            ports:
+              - containerPort: 8080 # (We can get this info from our Dockerfile in our Boardgame repo "https://github.com/FahadMKhan/Boardgame/blob/main/Dockerfile"). The port that the container is running on in the cluster
+  ```
+
+  ```yaml
+  ---
+  apiVersion: v1 # Kubernetes API version
+  kind: Service # Kubernetes resource kind we are creating
+  metadata: # Metadata of the resource kind we are creating
+    name: boardgame-ssvc  #(Can change app: yourprojectname-ssvc)
+  spec:
+    selector:
+      app: boardgame  #(Can change app: yourprojectname)
+    ports:
+      - protocol: "TCP"
+        port: 8080  #(We can get this info from our Dockerfile in our Boardgame repo "https://github.com/FahadMKhan/Boardgame/blob/main/Dockerfile". The port that the service is running on in the cluster
+        targetPort: 8080  #(We can get this info from our Dockerfile in our Boardgame repo "https://github.com/FahadMKhan/Boardgame/blob/main/Dockerfile"). The port exposed by the service
+    type: LoadBalancer  # type of the service.
+  ```
+
+  *"In Kubernetes, a Service is an abstract way to expose an application running on a set of Pods as a network service. Kubernetes Services support several types, each designed for different use cases. Here’s a breakdown of the three primary types of Services you mentioned: ClusterIP, NodePort, and LoadBalancer."*
+
+  **ClusterIP** is the default Kubernetes Service that provides an internal IP address for in-cluster communication between Pods, ensuring services are accessible internally but not from the external network.
+
+  **NodePort** is a Kubernetes Service type that exposes a service on a static port on each Node’s IP address, allowing external access to the service. This setup is useful for making applications accessible from outside the cluster by accessing any node at a specified port. As it opens a port on a worker Node, it is not a secure way, so we should avoid NodePort for external access unless required by your project or specifically requested by your organization.
+
+  **LoadBalancer** is a Kubernetes Service type that integrates with external cloud-based load balancers, automatically routing external traffic to the service across cluster nodes, making it ideal for handling incoming internet traffic to applications. This feature is available by default on all cloud platforms, meaning this feature is available in the Kubernetes cluster by default for us to use it.
+
+- **Once the changes are done according to our need in our deployment-service.yaml, now we will create the "Deploy To Kubernetes" stage and steps:**
+
+- **Paste the example script in the steps below:**
+  *e.g. Script:*
+  ```groovy
+  withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ''xyz) {
+  // some block
+  }
+  ```
+  *For the Kubernetes apply command, we will add a Script to the stage steps and will write the commands inside it. We will remove // some block with sh "kubectl apply -f our-manifested-filename.yaml command".*
+
+  ```groovy
+  stage('Deploy To Kubernetes') {
+      steps {
+         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ''xyz) { 
+              sh "kubectl apply -f deployment-service.yaml"
+         } 
+      }
+  }
+  ```
+  
