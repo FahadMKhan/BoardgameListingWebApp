@@ -1198,3 +1198,57 @@ Now, go to the SonarQube VM opened in the browser:
 - Click on `BoardGame` on the Project page.
 - Click on the `Issues` tab.
 - Here you will see all the issues and suggestions on how to fix them in detail.
+
+### Step-by-Step Guide to Verifying LoadBalancer Service in Jenkins
+
+1. **Access Jenkins Console Output:**
+   - Open the Jenkins VM in your browser.
+   - Click on the `Dashboard`.
+   - Click on your job name `BoardGame`.
+   - Click on the job number in the `Build History`.
+
+2. **Check Console Output:**
+   - In the `Console Output`, scroll down to find the `LoadBalancer` service type.
+
+3. **Understanding LoadBalancer in Self-Hosted Kubernetes:**
+   - In a self-hosted Kubernetes cluster, the `LoadBalancer` service type may not work by default. This is because `LoadBalancer` is not available in local setups.
+   - For example, if you are running Kubernetes on your own servers (self-hosted), specifying `LoadBalancer` in your service configuration won't automatically create a load balancer. Your setup does not support this feature by default, and you might see an error or the service might not function as expected.
+
+4. **Using LoadBalancer in Cloud-Based Kubernetes:**
+   - To use the `LoadBalancer` service type, consider using a cloud-based Kubernetes service like Amazon EKS, Google Kubernetes Engine (GKE), or Azure Kubernetes Service (AKS).
+   - These cloud platforms provide built-in support for load balancers. For instance, in GKE, specifying `LoadBalancer` in your service configuration will automatically provision a load balancer for your application.
+
+5. **Example Usage of LoadBalancer:**
+   - I used the `LoadBalancer` type in this example to show you the format, even though it may not work in a self-hosted environment.
+   - When using a `LoadBalancer`, a URL will be generated under the `EXTERNAL-IP`. This URL can be used to access the application.
+
+6. **Host-Port and Container-Port:**
+   - We have Host-port:Container-Port, such as `8080:30119/TCP`, under the `PORT(S)`. These ports indicate where our application will be accessible.
+
+7. **Accessing the Application:**
+   - Copy the `Container-Port` (e.g., `30119`) and the Public IP address of Slave-1 (WorkerNode-1) (e.g., `10.10.10.101`).
+   - Open a browser and enter the Public IP address of Slave-1 followed by the Container-Port, for example, `10.10.10.101:30119`.
+   - You should see the `Welcome to BoardGame Database page`, confirming that the application is running.
+
+8. **Understanding CRUD Operations:**
+   - Note that the application supports CRUD operations, which stands for Create, Read, Update, and Delete. These are the basic operations for handling data in an application.
+
+### Pipeline Stages Summary:
+
+1. **Declarative: Tool Install**
+2. **Git Checkout**
+3. **Compile**
+4. **Test**
+5. **File System Scan**
+6. **SonarQube Analysis**
+7. **Quality Gate**
+8. **Build**
+9. **Publish to Nexus**
+10. **Build & Tag Docker Image**
+11. **Docker Image Scan**
+12. **Push Docker Image**
+13. **Deploy To Kubernetes**
+14. **Verify the Deployment**
+15. **Declarative: Post Actions**
+
+*************In the next stage we will start monitoring so for that check "PHASE-4"*****************
