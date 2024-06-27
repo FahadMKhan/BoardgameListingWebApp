@@ -120,6 +120,7 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
 1. **Download and Install Grafana:**
    - Go to [Grafana Download Page](https://grafana.com/grafana/download).
    - Run the following commands to install Grafana:
+   - - Ensure you are out of the directories and at the main VM prompt, e.g., `ubuntu@ip-10.1.1.1:`.
      ```bash
      sudo apt-get install -y adduser libfontconfig1 musl
      ```
@@ -136,10 +137,9 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
      - This command installs Grafana from the downloaded package.
 
 2. **Start Grafana:**
-   - Ensure you are out of the directories and at the main VM prompt, e.g., `ubuntu@ip-10.1.1.1:`.
+   
    - Run the following command to start Grafana:
      ```bash
      sudo /bin/systemctl start grafana-server
      ```
-
 You have now successfully set up monitoring on your VM with Prometheus and Grafana.
