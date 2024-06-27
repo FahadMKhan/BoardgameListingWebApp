@@ -119,6 +119,7 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
 
 1. **Download and Install Grafana:**
    - Go to [Grafana Download Page](https://grafana.com/grafana/download).
+   
    **Ensure you are out of the directories and at the main VM prompt, e.g., `ubuntu@ip-10.1.1.1:`.**
 
    - Run the following commands to install Grafana:
