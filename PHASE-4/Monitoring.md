@@ -97,7 +97,7 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
      ```
    - Remove the tar file:
      ```bash
-     rm -rf prometheus-2.53.0-rc.o.linux-amd64.tar.gz
+     rm -rf prometheus-2.53.0.linux-amd64.tar.gz
      ```
    - Change to the extracted directory:
      ```bash
@@ -119,8 +119,9 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
 
 1. **Download and Install Grafana:**
    - Go to [Grafana Download Page](https://grafana.com/grafana/download).
+   Ensure you are out of the directories and at the main VM prompt, e.g., `ubuntu@ip-10.1.1.1:`.
+
    - Run the following commands to install Grafana:
-   - - Ensure you are out of the directories and at the main VM prompt, e.g., `ubuntu@ip-10.1.1.1:`.
      ```bash
      sudo apt-get install -y adduser libfontconfig1 musl
      ```
@@ -137,14 +138,19 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
      - This command installs Grafana from the downloaded package.
 
 2. **Start Grafana:**
-   
-   - Run the following command to start Grafana:
+     - Run the following command to start Grafana:
      ```bash
      sudo /bin/systemctl start grafana-server
      ```
+
 3. **Access Grafana:**
-   - Open your browser and navigate to `http://10.1.1.1:3000` (assuming Grafana runs on default port 3000).
-     This is the reason I open the port range from 3000 to 10000 because I use this range on a regular bases.
-   - Use the default credentials to log in (username: `admin`, password: `admin`).
+   - Open your browser and navigate to `http://10.1.1.1:3000` (replace `10.1.1.1` with your VM's Public IPv4 address).
+   - Log in using the default credentials:
+     - Username: `admin`
+     - Password: `admin`
+   - You will be prompted to change the password:
+     - New password: `Grafana`
+     - Confirm new password: `Grafana`
+   - Click on "Submit".
 
 You have now successfully set up monitoring on your VM with Prometheus and Grafana.
