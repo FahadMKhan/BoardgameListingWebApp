@@ -1121,3 +1121,80 @@ By following these steps, you will successfully install kubectl on your Jenkins 
    - Click on `Save` to apply the changes.
 
 Now, your Jenkins instance is configured to send email notifications using your Gmail account `echicx@gmail.com`. Ensure that Port 465 is open for SMTP to function correctly.
+
+### **Configure Job-Specific Email Notifications**
+
+1. **Configure Email Notifications for a Jenkins Job:**
+   - Go to your Jenkins Dashboard.
+   - Select the job (BoardGame) you want to configure.
+   - Click on `Configure`.
+   - Scroll down to the Pipeline Script section.
+
+Now, we will write the steps for our Pipeline to receive email notifications. We will attach the Trivy report so every time this job runs, it generates the reports. We already have `trivy-image-report.html` in our "Docker Image Scan" step. So, copy the `trivy-image-report.html` and paste it in `attachmentsPattern: 'trivy-image-report.html'`.
+
+Ensure the `post` section starts at the same indentation level as the `pipeline` declaration to correctly configure the email notifications.
+
+Copy the below pipeline script from: [Jenkins Pipeline Email Notification Steps](https://github.com/FahadMKhan/Boardgame/blob/main/Jenkins-pipeline-email-notification-steps.md#steps-for-our-pipeline-to-receive-email-notifications):
+
+```groovy
+post {
+    always {
+        script {
+            def jobName = env.JOB_NAME
+            def buildNumber = env.BUILD_NUMBER
+            def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
+            def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
+            def buildUrl = env.BUILD_URL
+
+            def body = """
+                <html>
+                    <body>
+                        <div style="border: 4px solid ${bannerColor}; padding: 10px;">
+                            <h2>${jobName} - Build ${buildNumber}</h2>
+                            <div style="background-color: ${bannerColor}; padding: 10px;">
+                                <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                            </div>
+                            <p>Check the <a href="${buildUrl}">console output</a></p>
+                        </div>
+                    </body>
+                </html>
+            """
+
+            emailext (
+                to: 'echix@example.com',
+                from: 'jenkins@example.com',
+                replyTo: 'jenkins@example.com',
+                subject: "Build ${buildNumber} - ${jobName} - ${pipelineStatus.toUpperCase()}",
+                body: body,
+                mimeType: 'text/html',
+                attachmentsPattern: 'trivy-image-report.html'
+            )
+        }
+    }
+}
+```
+
+Now our Pipeline is complete.
+
+- We will now run our pipeline by clicking on `Build Now`.
+
+- Fix any issues with the pipeline, for example, syntax errors.
+- Once the errors are fixed, you can click on `Build Now` again.
+
+You can view the step-by-step progress of your build:
+- Click on your job `BoardGame`.
+- Click on the job number in `Build History`.
+- Click on `Console Output`.
+
+Once the pipeline is successfully executed, click on your job `BoardGame`. There you will find a lot of information regarding your pipeline, such as `Test result trend` and `Stage View`. Under `Last successful Artifacts`, you will see the `Trivy generated artifacts` in .jar and .pom files.
+
+- Now click on the job number in the build history.
+- Click on `Workspace`.
+- Inside Workspace, you will see Trivy reports, such as `trivy-fs-report.html` and `trivy-image-report.html`.
+
+Now, go to the SonarQube VM opened in the browser:
+- Click on the `Projects` tab.
+- You will see your project `BoardGame` created.
+- Click on `BoardGame` on the Project page.
+- Click on the `Issues` tab.
+- Here you will see all the issues and suggestions on how to fix them in detail.
