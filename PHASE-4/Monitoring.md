@@ -142,4 +142,9 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
      ```bash
      sudo /bin/systemctl start grafana-server
      ```
+3. **Access Grafana:**
+   - Open your browser and navigate to `http://10.1.1.1:3000` (assuming Grafana runs on default port 3000).
+     This is the reason I open the port range from 3000 to 10000 because I use this range on a regular bases.
+   - Use the default credentials to log in (username: `admin`, password: `admin`).
+
 You have now successfully set up monitoring on your VM with Prometheus and Grafana.
