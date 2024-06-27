@@ -1035,3 +1035,89 @@ stage('Verify The Deployment') {
   - **sh "kubectl get svc -n webapps":** Verifies the deployment by listing all the services in the webapps namespace.
 
 By following these steps, you will successfully install kubectl on your Jenkins server and verify your deployment in Kubernetes.
+
+### Detailed Step-by-Step Guide to Configure Gmail Account for Mail Notifications in Jenkins
+
+**Note:** Ensure Port 465 is open in your security group settings when creating the VMs.
+
+#### 1. **Login to your Gmail account and Generate App Password in Gmail**
+
+1. **Login to your Gmail account:**
+   - Open a browser and go to [Gmail](https://mail.google.com).
+   - Login with the email address: `echicx@gmail.com`.
+
+2. **Manage your Google Account:**
+   - Navigate via `Manage your Google Account`.
+   - Click on `Security`.
+
+3. **Enable 2-Step Verification:**
+   - Under `How you sign in to Google`, click on `2-Step Verification`.
+   - It will ask you to verify yourself by `Entering your password`.
+   - `Enter your password` and click on `Next`.
+
+4. **Set up 2-Step Verification:**
+   - Follow the on-screen instructions to complete the setup for 2-Step Verification.
+
+5. **Generate App Password:**
+   - After enabling 2-Step Verification, go back to the `Security` section.
+   - Under `How you sign in to Google`, click on `App passwords`.
+   - Verify yourself if prompted by entering your password.
+   - Scroll down to `App password`.
+   - Select `Mail` for the app and `Other` for the device and enter a custom name like `Jenkins`.
+   - Click on `Generate`.
+   - Note down the generated app password, as it will be used in Jenkins.
+
+**Note:** The generated app password for Jenkins application is different from your Gmail account password and cannot be used for logging into your account but can be used for sending your mail notifications.
+
+#### 2. **Configure Jenkins for Email Notifications**
+
+1. **Access Jenkins Dashboard:**
+   - Go to your Jenkins instance in a browser.
+
+2. **Manage Jenkins:**
+   - Click on `Manage Jenkins` on the left sidebar.
+
+3. **Configure System:**
+   - Click on `System`.
+
+4. **Extended E-mail Notification:**
+   - Scroll down to `Extended E-mail Notification`.
+   - Enter `smtp.gmail.com` in the `SMTP server` field.
+   - Enter `465` in the `SMTP Port` field.
+   - Click on `Advanced` button.
+   - Select `Use SSL`.
+   - Click on `+Add` in the `Credentials` field.
+   - Select `Jenkins`.
+   - In `Add Credentials`, enter the following:
+     - `User Name`: Enter your Gmail email address `echicx@gmail.com`.
+     - `Password`: Enter the generated app password.
+     - `ID`: Enter `mail-cred`.
+     - `Description`: Enter `mail-cred`.
+   - Click on `Add`.
+
+5. **Configure E-mail Notification:**
+   - Go back to `System`.
+   - Scroll down to `E-mail Notification`.
+   - Enter `smtp.gmail.com` in the `SMTP server` field.
+   - Click on `Advanced` button.
+   - Select `Use SMTP Authentication`.
+   - Enter your Gmail email address `echicx@gmail.com` in the `User Name` field.
+   - Enter the generated app password in the `Password` field.
+   - Select `Use SSL`.
+   - Enter `465` in the `SMTP Port` field.
+   - Select `mail-cred` from the `Credentials` dropdown.
+
+6. **Test Configuration:**
+   - Scroll down to the `Test configuration by sending test e-mail` section.
+   - Enter your Gmail email address `echicx@gmail.com` to send a test email.
+   - Click on `Test configuration`.
+   - You will get an outcome `Email was successfully sent`.
+
+   **Email Verification:**
+   - To verify, open your Gmail email address `echicx@gmail.com`.
+   - You will find a `Test email` in your inbox.
+
+7. **Save Configuration:**
+   - Click on `Save` to apply the changes.
+
+Now, your Jenkins instance is configured to send email notifications using your Gmail account `echicx@gmail.com`. Ensure that Port 465 is open for SMTP to function correctly.
