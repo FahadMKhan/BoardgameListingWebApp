@@ -291,4 +291,94 @@ scrape_configs:
 
 In summary, this stage configures Prometheus to use the Blackbox Exporter to monitor specified endpoints, ensuring you can collect and visualise data on their availability and performance.
 
+### Steps to Locate and Edit the `prometheus.yaml` File
 
+1. **Go to the Monitor VM Terminal:**
+   - Open your terminal connected to the Monitor VM.
+
+2. **List the Contents:**
+   - Verify the directory contents to ensure everything is in place by running:
+     ```sh
+     ls
+     ```
+   - You should see the `prometheus-2.53.0.linux-amd64` folder.
+
+3. **Change to the Directory:**
+   - Navigate to the Prometheus directory:
+     ```sh
+     cd prometheus-2.53.0.linux-amd64
+     ```
+
+4. **Verify the Contents:**
+   - List the contents of the directory to confirm the presence of the `prometheus.yaml` file:
+     ```sh
+     ls
+     ```
+   - You should see the `prometheus.yaml` file listed.
+
+5. **Edit the `prometheus.yaml` File:**
+   - Open the `prometheus.yaml` file in the `vi` editor:
+     ```sh
+     vi prometheus.yaml
+     ```
+
+6. **Scroll to the Bottom:**
+   - Use the arrow keys to scroll down to the bottom of the file.
+
+7. **Paste the Configuration:**
+   - Copy and paste the following configuration at the bottom of the file. Make sure to copy the configuration from `- job_name: 'blackbox'` up to the `replacement: 127.0.0.1:9115` line:
+     ```yaml
+     - job_name: 'blackbox'
+       metrics_path: /probe
+       params:
+         module: [http_2xx]  # Look for a HTTP 200 response.
+       static_configs:
+         - targets:
+           - http://prometheus.io    # Target to probe with http.
+           - https://prometheus.io   # Target to probe with https.
+           - http://example.com:8080 # Target to probe with http on port 8080.
+       relabel_configs:
+         - source_labels: [__address__]
+           target_label: __param_target
+         - source_labels: [__param_target]
+           target_label: instance
+         - target_label: __address__
+           replacement: 127.0.0.1:9115  # The blackbox exporter's real hostname:port.
+     ```
+
+8. **Update the IP Address:**
+   - Change the `replacement: 127.0.0.1:9115` to the IP address where the Blackbox Exporter is running. For example, if the Blackbox Exporter IP address is `10.1.1.1`, update the line as shown below:
+     ```yaml
+     - job_name: 'blackbox'
+       metrics_path: /probe
+       params:
+         module: [http_2xx]  # Look for a HTTP 200 response.
+       static_configs:
+         - targets:
+           - http://prometheus.io    # Target to probe with http.
+           - https://prometheus.io   # Target to probe with https.
+           - http://example.com:8080 # Target to probe with http on port 8080.
+       relabel_configs:
+         - source_labels: [__address__]
+           target_label: __param_target
+         - source_labels: [__param_target]
+           target_label: instance
+         - target_label: __address__
+           replacement: 10.1.1.1:9115  # The blackbox exporter's real hostname:port.
+     ```
+
+**==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
+**==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
+
+
+9. **Save and Exit `vi` Editor:**
+   - Press `Esc` to exit insert mode.
+   - Type `:wq` and press `Enter` to save the changes and exit the editor.
+
+### Summary
+
+**Purpose**:
+- The purpose of this stage is to configure Prometheus to use the Blackbox Exporter for probing and monitoring various endpoints. This ensures Prometheus can collect metrics on the availability and performance of these endpoints.
+
+**Outcome**:
+- After completing these steps, Prometheus will be configured to use the Blackbox Exporter to monitor specified targets. This integration allows for effective monitoring and ensures the targets are operational as expected.
