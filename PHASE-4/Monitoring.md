@@ -155,3 +155,67 @@ We will launch a VM for monitoring. Follow these detailed steps to create an Ubu
    - Click on "Submit".
 
 You have now successfully set up monitoring on your VM with Prometheus and Grafana.
+
+### Installing Black Box Exporter
+
+The Black Box Exporter is a tool that allows you to monitor the availability and performance of websites and other services. Follow these steps to download, install, and run the Black Box Exporter on your monitoring VM.
+
+1. **Browse to Prometheus Downloads:**
+   - Open your browser and go to [Prometheus Download Page](https://prometheus.io/download/).
+   - In the search box, type `blackbox_exporter` or click directly on this [link](https://prometheus.io/download/#blackbox_exporter) to find the Black Box Exporter.
+
+2. **Download the Black Box Exporter Package:**
+   - Open your Monitor VM terminal.
+   - Download the Black Box Exporter package by running the following command:
+     ```bash
+     wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.25.0/blackbox_exporter-0.25.0.linux-amd64.tar.gz
+     ```
+
+3. **Extract the Package:**
+   - Extract the downloaded tar file:
+     ```bash
+     tar -xvf blackbox_exporter-0.25.0.linux-amd64.tar.gz
+     ```
+
+4. **Verify the Downloaded Package:**
+   - List the contents to verify the extraction:
+     ```bash
+     ls
+     ```
+
+5. **Remove the Tar File:**
+   - Remove the extracted tar file to clean up the directory:
+     ```bash
+     rm -rf blackbox_exporter-0.25.0.linux-amd64.tar.gz
+     ```
+
+6. **Change to the Extracted Directory:**
+   - Navigate to the extracted directory:
+     ```bash
+     cd blackbox_exporter-0.25.0.linux-amd64
+     ```
+
+7. **Verify the Contents:**
+   - List the contents to ensure everything is in place:
+     ```bash
+     ls
+     ```
+
+8. **Run the Black Box Exporter:**
+   - Run the Black Box Exporter in the background:
+     ```bash
+     ./blackbox_exporter &
+     ```
+   - By default, the Black Box Exporter runs on port `9115`.
+
+9. **Access the Black Box Exporter:**
+   - Copy the Public IPv4 address of your VM.
+   - Open your browser and navigate to `http://<VM Public IPv4>:9115`. For example, if your VM's IP is `10.1.1.1`, go to:
+     ```plaintext
+     http://10.1.1.1:9115
+     ```
+
+10. **Verify Installation:**
+    - You should see the Black Box Exporter display page, confirming that the Black Box Exporter is running successfully.
+
+You have now successfully installed and started the Black Box Exporter on your monitoring VM.
