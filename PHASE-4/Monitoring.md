@@ -219,3 +219,76 @@ The Black Box Exporter is a tool that allows you to monitor the availability and
     - You should see the Black Box Exporter display page, confirming that the Black Box Exporter is running successfully.
 
 You have now successfully installed and started the Black Box Exporter on your monitoring VM.
+
+At this stage, all 3 applications Prometheus, Grafana and Blackbox are running but we need to apply certain changes to Prometheus.yaml file
+
+To see the required configuration, click on: https://github.com/FahadMKhan/blackbox_exporter/blob/master/README.md#prometheus-configuration
+
+### Explanation and Summary of the Stage
+
+At this stage, you are configuring Prometheus to use the Blackbox Exporter for monitoring various endpoints. Here's a step-by-step explanation and summary of why this stage is necessary and what the outcome will be.
+
+### Explanation
+
+1. **Applications Running**:
+   - You have three applications running: Prometheus (for metrics collection), Grafana (for visualisation), and Blackbox Exporter (for probing and monitoring specific endpoints).
+
+2. **Prometheus Configuration File**:
+   - The `prometheus.yaml` file is where Prometheus' configuration is defined. This includes specifying which endpoints to scrape metrics from.
+
+3. **Blackbox Exporter Integration**:
+   - The Blackbox Exporter allows Prometheus to monitor various endpoints (e.g., websites) by probing them.
+   - The configuration involves setting up a `scrape_configs` section for the Blackbox Exporter.
+
+4. **Configuration Details**:
+   - **Job Name**: Each set of configuration rules is identified by a `job_name`. Here, it is set to `'blackbox'`.
+   - **Metrics Path**: The `metrics_path` is set to `/probe`, which is the endpoint that Blackbox Exporter exposes for probing targets.
+   - **Params**: The `params` section specifies that the module `http_2xx` should be used, meaning it will look for HTTP 200 responses (successful HTTP requests).
+   - **Static Configurations**: The `static_configs` section lists the targets to probe. These targets can be various URLs that you want to monitor.
+   - **Relabelling**: The `relabel_configs` section is used to modify the labels of the scraped metrics. This is necessary to pass the target URL to the Blackbox Exporter correctly.
+   - **Replacement**: The `replacement` line sets the address of the Blackbox Exporter (`127.0.0.1:9115`), which is running on the local machine on port 9115.
+
+5. **Operational Metrics**:
+   - Another job named `blackbox_exporter` is set up to collect the operational metrics of the Blackbox Exporter itself.
+
+### Summary
+
+**Purpose**:
+- The purpose of this stage is to configure Prometheus to use the Blackbox Exporter for probing and monitoring various endpoints. This configuration allows Prometheus to collect metrics on the availability and performance of these endpoints.
+
+**Outcome**:
+- After applying these changes to the `prometheus.yaml` file, Prometheus will be able to monitor the specified targets using the Blackbox Exporter. This will enable you to visualise the monitoring data in Grafana, ensuring that the endpoints you care about are up and running as expected.
+
+**Why Necessary**:
+- This configuration is necessary because it integrates the Blackbox Exporter with Prometheus, allowing you to monitor HTTP endpoints effectively. Without this configuration, Prometheus would not be able to use the Blackbox Exporter to probe the specified targets.
+
+### Configuration Example
+
+Here's the configuration you would add to your `prometheus.yaml` file:
+
+```yaml
+scrape_configs:
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    static_configs:
+      - targets:
+        - http://prometheus.io    # Target to probe with http.
+        - https://prometheus.io   # Target to probe with https.
+        - http://example.com:8080 # Target to probe with http on port 8080.
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115  # The blackbox exporter's real hostname:port.
+  - job_name: 'blackbox_exporter'  # Collect blackbox exporter's operational metrics.
+    static_configs:
+      - targets: ['127.0.0.1:9115']
+```
+
+In summary, this stage configures Prometheus to use the Blackbox Exporter to monitor specified endpoints, ensuring you can collect and visualise data on their availability and performance.
+
+
