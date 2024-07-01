@@ -536,6 +536,109 @@ By following these steps, you will have successfully configured Prometheus to mo
 
 By following these steps, you will successfully integrate Prometheus with Grafana, set up monitoring for your websites and system using Node Exporter, and configure Jenkins to expose metrics to Prometheus for comprehensive system-level monitoring.
 
+### Adding New Jobs Inside Prometheus.yaml
+
+**Step-by-Step Instructions:**
+
+In the next step, we need to add new jobs inside the `prometheus.yaml` file using the Monitor VM terminal.
+
+1. **Open Monitor VM Terminal:**
+
+2. **Verify the Contents:**
+   - List the contents using the command below:
+     ```bash
+     ls
+     ```
+   - Here you will see the `prometheus-2.53.0.linux-amd64` directory.
+
+3. **Change Directory to Prometheus:**
+   - Change directory to `prometheus-2.53.0.linux-amd64` using the command below:
+     ```bash
+     cd prometheus-2.53.0.linux-amd64
+     ```
+
+4. **Verify the Contents:**
+   - List the contents using the command below:
+     ```bash
+     ls
+     ```
+   - Here you will see the `prometheus.yaml` file.
+
+5. **Edit the Prometheus.yaml File:**
+   - Now we will edit this `prometheus.yaml` file using Vim.
+     ```bash
+     vi prometheus.yaml
+     ```
+
+6. **Add New Jobs:**
+   - Add the following jobs to the `scrape_configs` section in the `prometheus.yaml` file:
+
+     ```yaml
+     - job_name: 'node_exporter'
+       static_configs:
+         - targets: ['10.101.10.101:9100'] 
+
+     - job_name: 'jenkins'
+       metrics_path: '/prometheus'
+       static_configs:
+         - targets: ['10.101.10.101:8080']
+     ```
+
+     - (Replace `10.101.10.101` with the actual IP address of your Jenkins server).
+
+     Here is the complete job configuration that you will paste in the `scrape_configs` section of the `prometheus.yaml` file:
+
+     ```yaml
+     - job_name: 'node_exporter'
+       static_configs:
+         - targets: ['10.101.10.101:9100'] 
+
+     - job_name: 'jenkins'
+       metrics_path: '/prometheus'
+       static_configs:
+         - targets: ['10.101.10.101:8080']
+     ```
+
+     ![scrape_config](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/4ed562e6-c3e0-4462-84d8-5df115060be8)
+
+7. **Save the Prometheus.yaml Configuration File:**
+   - Save the file and exit Vim:
+     ```bash
+     Esc -> :wq -> Enter
+     ```
+
+8. **Restart Prometheus:**
+
+   a. **Get the Process ID:**
+      - Use the command below to get the process ID of Prometheus:
+        ```bash
+        pgrep Prometheus
+        ```
+      - For example, if the outcome of the above command is `5816`.
+
+   b. **Kill the Process:**
+      - Kill this process using its process ID:
+        ```bash
+        kill 5816
+        ```
+
+   c. **Restart Prometheus:**
+      - Once the kill process is completed, restart Prometheus using the command below (do not forget to add `&` at the end of the command to run Prometheus in the background):
+        ```bash
+        ./Prometheus &
+        ```
+
+9. **Verify in Prometheus Browser:**
+   - Go to the browser where Prometheus is opened and refresh the page.
+   - In the "Targets" section, you will now see a section named "jenkins."
+   - Click on "show more."
+   - In the Jenkins section, you will see the "Endpoint" of Jenkins `http://10.101.10.101:8080/prometheus` and the "Status" as "UP".
+
+     ![Blackbox_Endpoints](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/85dbc061-b812-4472-9240-8c97b74e4e1e)
+
+By following these steps, you have successfully added new jobs to the `prometheus.yaml` file and verified that Prometheus is monitoring the new targets.
+
+
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
 
@@ -547,18 +650,3 @@ By following these steps, you will successfully integrate Prometheus with Grafan
 
 
 
-
-
-
-
-9. **Save and Exit `vi` Editor:**
-   - Press `Esc` to exit insert mode.
-   - Type `:wq` and press `Enter` to save the changes and exit the editor.
-
-### Summary
-
-**Purpose**:
-- The purpose of this stage is to configure Prometheus to use the Blackbox Exporter for probing and monitoring various endpoints. This ensures Prometheus can collect metrics on the availability and performance of these endpoints.
-
-**Outcome**:
-- After completing these steps, Prometheus will be configured to use the Blackbox Exporter to monitor specified targets. This integration allows for effective monitoring and ensures the targets are operational as expected.
