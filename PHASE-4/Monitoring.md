@@ -433,7 +433,103 @@ To configure Prometheus to monitor the Prometheus website and an application run
 
 By following these steps, you will have successfully configured Prometheus to monitor the specified websites and verified that both endpoints are being monitored properly.
 
+### Adding Prometheus as a Data Source in Grafana
 
+**Step-by-Step Guide:**
+
+1. **Add Prometheus as a Data Source:**
+   - Open Grafana in your browser.
+   - Click on the ">" next to "Connections" and from the list, select "Data Sources."
+   - Click on "Add Data Source."
+   - Select "Prometheus."
+   - On the Prometheus configuration page, under the "Connection" section, provide the IP address and port number of Prometheus (e.g., `http://10.0.0.0:9090`).
+   - Scroll down to the end of the page and click on "Save & Test."
+   - Ensure the outcome message is: "Successfully queried the Prometheus API."
+
+2. **Import the Blackbox Exporter Dashboard:**
+   - Open a new tab in your browser.
+   - Search for "blackbox grafana dashboard" and navigate to: https://grafana.com/grafana/dashboards/7587-prometheus-blackbox-exporter/
+   - Scroll down to the "Get this dashboard" section.
+   - Under "Import the dashboard template," click on "Copy ID to clipboard."
+   - Return to the Grafana browser tab.
+   - Click on the "+" icon in the top right corner and select "Import dashboard."
+   - Paste the copied ID (7587) into the "Import via grafana.com" field and click "Load."
+   - Scroll down to "signcl-prometheus" and select the data source, e.g., "prometheus default."
+   - Click on "Import."
+   - From the menu bar at the top, click on the time range selector (default "Last 5 minutes") and choose your preferred time range.
+
+3. **Verify the Blackbox Exporter Dashboard:**
+   - The dashboard should display monitoring information for your configured HTTP targets.
+   - You can monitor and get results of your application status, HTTP duration, and HTTP probe duration.
+   - You can adjust the scan/refresh interval from the top menu (e.g., set to 5s for more frequent updates).
+   - In the "Enter variable value" box in front of "target," you can select specific targets/websites to monitor. In this case, `http://prometheus.io` and `http://10.0.0.1:30119`.
+
+### System Level Monitoring with Node Exporter
+
+1. **Download and Install Node Exporter:**
+   - Go to https://prometheus.io/download/.
+   - Scroll down to "node_exporter."
+   - Copy the link address for the Linux tar file (e.g., `https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz`).
+
+2. **Download and Extract the Package:**
+   - Open your Jenkins VM terminal.
+   - Download the node_exporter package:
+     ```bash
+     wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
+     ```
+   - Extract the downloaded tar file:
+     ```bash
+     tar -xvf node_exporter-1.8.1.linux-amd64.tar.gz
+     ```
+   - Remove the tar file to clean up the directory:
+     ```bash
+     rm -rf node_exporter-1.8.1.linux-amd64.tar.gz
+     ```
+   - Change to the extracted directory:
+     ```bash
+     cd node_exporter-1.8.1.linux-amd64
+     ```
+   - List the contents to ensure everything is in place:
+     ```bash
+     ls
+     ```
+
+3. **Run the Node Exporter:**
+   - Start the Node Exporter in the background:
+     ```bash
+     ./node_exporter &
+     ```
+   - Node Exporter runs on port `9100`.
+
+4. **Verify Node Exporter:**
+   - Copy the Public IPv4 address of your VM.
+   - Open your browser and navigate to `http://<VM Public IPv4>:9100` (e.g., `http://10.1.1.2:9100`).
+   - Verify that the Node Exporter is running successfully by checking the metrics page.
+
+### Integrating Jenkins with Prometheus
+
+1. **Install Prometheus Metrics Plugin for Jenkins:**
+   - Open Jenkins in your browser.
+   - Navigate to the Dashboard.
+   - Click on "Manage Jenkins."
+   - Select "Manage Plugins."
+   - Go to the "Available Plugins" tab.
+   - Search for "Prometheus" and select "Prometheus metrics."
+   - Click "Install" (You may need to restart Jenkins for the plugin to take effect).
+
+2. **Restart Jenkins:**
+   - To restart Jenkins, append `/restart` to the Jenkins URL (e.g., `http://10.101.10.101:8080/restart`).
+   - Confirm the restart when prompted.
+
+3. **Configure Prometheus Plugin in Jenkins:**
+   - Once Jenkins restarts, log in using your credentials.
+   - Navigate to "Manage Jenkins."
+   - Click on "Configure System."
+   - Scroll down to find the "Prometheus" section.
+   - Configure the plugin as needed. (see the screenshots below)
+     
+
+By following these steps, you will successfully integrate Prometheus with Grafana, set up monitoring for your websites and system using Node Exporter, and configure Jenkins to expose metrics to Prometheus for comprehensive system-level monitoring.
 
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
