@@ -107,3 +107,8 @@ Here are some of the required png's:
 
 <img width="589" alt="Grafana Dashboard-2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/6c1592a9-7604-413e-bc0c-e908ae6875ee">
 
+<img width="638" alt="Jenkins_New_dashboard" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2ec3890f-21d5-4e5c-94a3-2fe466cc3e0c">
+<img width="637" alt="Jenkins_New_dashboard2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/83024a14-f6c7-4621-b843-b4304845b1f3">
+
+<img width="637" alt="Dashboards_overview" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/08a634b2-2d1a-4ea4-ae31-00e5dc9f8d15">
+
