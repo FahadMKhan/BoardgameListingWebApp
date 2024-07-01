@@ -100,3 +100,5 @@ Here are some of the required png's:
 <img width="614" alt="Promotheus_2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2360bc51-acb7-4997-abae-6e3d9fd8a2cb">
 
 <img width="637" alt="scrape_config" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/4ed562e6-c3e0-4462-84d8-5df115060be8">
+
+<img width="638" alt="Blackbox_Endpoints" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/85dbc061-b812-4472-9240-8c97b74e4e1e">
