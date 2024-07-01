@@ -98,3 +98,5 @@ Here are some of the required png's:
 <img width="590" alt="Pometheus_ 1" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/99f18496-37a4-428e-88df-9c753822eaa6">
 
 <img width="614" alt="Promotheus_2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2360bc51-acb7-4997-abae-6e3d9fd8a2cb">
+
+<img width="637" alt="scrape_config" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/4ed562e6-c3e0-4462-84d8-5df115060be8">
