@@ -531,7 +531,8 @@ By following these steps, you will have successfully configured Prometheus to mo
   <img width="590" alt="Pometheus_ 1" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/99f18496-37a4-428e-88df-9c753822eaa6">
 
 <img width="614" alt="Promotheus_2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2360bc51-acb7-4997-abae-6e3d9fd8a2cb">
-     
+
+   - Click on "Apply" and "Save" to save the changes.
 
 By following these steps, you will successfully integrate Prometheus with Grafana, set up monitoring for your websites and system using Node Exporter, and configure Jenkins to expose metrics to Prometheus for comprehensive system-level monitoring.
 
