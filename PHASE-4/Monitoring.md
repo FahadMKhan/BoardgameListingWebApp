@@ -526,7 +526,11 @@ By following these steps, you will have successfully configured Prometheus to mo
    - Navigate to "Manage Jenkins."
    - Click on "Configure System."
    - Scroll down to find the "Prometheus" section.
-   - Configure the plugin as needed. (see the screenshots below)
+   - Configure the plugin as needed. (see the screenshots below):
+
+  <img width="590" alt="Pometheus_ 1" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/99f18496-37a4-428e-88df-9c753822eaa6">
+
+<img width="614" alt="Promotheus_2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2360bc51-acb7-4997-abae-6e3d9fd8a2cb">
      
 
 By following these steps, you will successfully integrate Prometheus with Grafana, set up monitoring for your websites and system using Node Exporter, and configure Jenkins to expose metrics to Prometheus for comprehensive system-level monitoring.
