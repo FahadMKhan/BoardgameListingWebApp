@@ -102,3 +102,8 @@ Here are some of the required png's:
 <img width="637" alt="scrape_config" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/4ed562e6-c3e0-4462-84d8-5df115060be8">
 
 <img width="638" alt="Blackbox_Endpoints" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/85dbc061-b812-4472-9240-8c97b74e4e1e">
+
+<img width="637" alt="Grafana Dashboard-1" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/cf10831f-7b93-4609-a914-9aff74b43947">
+
+<img width="589" alt="Grafana Dashboard-2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/6c1592a9-7604-413e-bc0c-e908ae6875ee">
+
