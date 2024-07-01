@@ -367,6 +367,74 @@ In summary, this stage configures Prometheus to use the Blackbox Exporter to mon
            replacement: 10.1.1.1:9115  # The blackbox exporter's real hostname:port.
      ```
 
+     ### Configuring Prometheus to Monitor Websites
+
+**Objective:**
+To configure Prometheus to monitor the Prometheus website and an application running on Slave-1 (WorkerNode-1).
+
+**Steps:**
+
+1. **Edit Prometheus Configuration File:**
+   - Open the `prometheus.yaml` configuration file in a text editor.
+   - Add the targets to the `static_configs` section.
+
+   ```yaml
+   static_configs:
+     - targets:
+       - http://prometheus.io  # Target to probe with http.
+       - http://10.1.1.1:30119 # Target to probe with http on port 30119.
+   ```
+
+2. **Save the Configuration File:**
+   - Save the file and exit the editor.
+     ```bash
+     Esc -> wq -> Enter
+     ```
+
+3. **Verify the Contents:**
+   - List the contents of the directory to ensure the file is in place.
+     ```bash
+     ls
+     ```
+
+4. **Restart Prometheus:**
+
+   a. **Get the Process ID:**
+      - Find the process ID of Prometheus.
+        ```bash
+        pgrep Prometheus
+        ```
+      - For example, if the output is `2621`.
+
+   b. **Kill the Process:**
+      - Kill the Prometheus process using its process ID.
+        ```bash
+        kill 2621
+        ```
+
+   c. **Restart Prometheus:**
+      - Restart Prometheus and run it in the background.
+        ```bash
+        ./Prometheus &
+        ```
+
+5. **Verify Prometheus Configuration:**
+
+   a. **Refresh the Prometheus Page:**
+      - Go to the browser where Prometheus is open and refresh the page.
+
+   b. **Check Targets:**
+      - Click on "Status" in the menu.
+      - Choose "Targets" from the dropdown menu.
+
+   c. **Verify Endpoint Status:**
+      - On the Target page, ensure the state of both endpoints is "UP".
+      - The labels should show the URLs of both endpoints set up in the `prometheus.yaml` file with job= 'blackbox'.
+
+By following these steps, you will have successfully configured Prometheus to monitor the specified websites and verified that both endpoints are being monitored properly.
+
+
+
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
 **==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
 
