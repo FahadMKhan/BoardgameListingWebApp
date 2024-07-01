@@ -638,9 +638,53 @@ In the next step, we need to add new jobs inside the `prometheus.yaml` file usin
 
 By following these steps, you have successfully added new jobs to the `prometheus.yaml` file and verified that Prometheus is monitoring the new targets.
 
+### Creating Another Dashboard in Grafana
 
-**==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
-**==========>>>>>>>>>>>>>>>>>>>>>>> Start here**
+**Step-by-Step Instructions:**
+
+1. **Search for Node Exporter Dashboard:**
+   - Open a new tab in your browser and search for "nodeexporter dashboard."
+   - You will find "Node Exporter Full | Grafana Labs" at the following link: [Node Exporter Full Dashboard](https://grafana.com/grafana/dashboards/12486-node-exporter-full/).
+   - Scroll down until you find `Get this dashboard` on the right-hand side of the webpage.
+   - Click on `Copy ID to clipboard`. For example, the copied ID is: 1860.
+
+2. **Import the Dashboard in Grafana:**
+   - Go to the browser where Grafana is opened.
+   - Click on "Home".
+   - Click on "Dashboards".
+   - On the Dashboards page, click on the "New^" tab and choose "Import".
+   - Inside "Import dashboard" under "Find and import dashboards for common applications at Grafana.com/dashboards," paste the `Copied ID from the clipboard` which is, in our example: 1860.
+
+     ![Grafana Dashboard-1](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/cf10831f-7b93-4609-a914-9aff74b43947)
+
+   - Click on `Load`.
+
+3. **Configure the Dashboard:**
+   - On the Import dashboard page, scroll down to the Prometheus section.
+   - Click on the dropdown and select the `Prometheus data source`.
+
+     ![Grafana Dashboard-2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/6c1592a9-7604-413e-bc0c-e908ae6875ee)
+
+   - Click on `Import`.
+
+4. **View the New Dashboard:**
+   - You will now see a new dashboard displaying various metrics such as CPU Busy, Sys Load, RAM Used, etc., which are from our Jenkins VM.
+
+     ![Jenkins_New_dashboard](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2ec3890f-21d5-4e5c-94a3-2fe466cc3e0c)
+     ![Jenkins_New_dashboard2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/83024a14-f6c7-4621-b843-b4304845b1f3)
+
+5. **Verify Created Dashboards:**
+   - Click on "Dashboards" to see that you now have two dashboards created in the Dashboards section:
+     1. Node Exporter Full
+     2. Prometheus Blackbox Exporter
+
+     ![Dashboards_overview](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/08a634b2-2d1a-4ea4-ae31-00e5dc9f8d15)
+
+**Task:**
+- From your side, you can try to include "Node Exporter" for monitoring your website.
+
+Thanks for following the guide. Happy Learning!
+
 
 
 
