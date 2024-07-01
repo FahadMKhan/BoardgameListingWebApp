@@ -94,3 +94,7 @@ Here are some of the required png's:
 
 
 ![Nexus-setting-2](https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/fcea7679-bf72-4b79-8bb7-8a4eea43906c)
+
+<img width="590" alt="Pometheus_ 1" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/99f18496-37a4-428e-88df-9c753822eaa6">
+
+<img width="614" alt="Promotheus_2" src="https://github.com/FahadMKhan/BoardgameListingWebApp/assets/97802721/2360bc51-acb7-4997-abae-6e3d9fd8a2cb">
